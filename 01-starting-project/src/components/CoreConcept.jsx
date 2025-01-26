@@ -1,6 +1,6 @@
 // function CoreConcept(props) {
 // {} used to destructure the first parameter of this function
-export default function CoreConcept({ image, title, description }) {
+export default function CoreConcept({ image, title, description, key }) {
   return (
     // <li>
     //   <img src={props.image} alt={props.title} />
