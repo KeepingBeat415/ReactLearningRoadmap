@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Player({ initialName, symbol, isActive }) {
+export default function Player({ initialName, symbol, isActive, onChangeName }) {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(initialName);
 
@@ -8,6 +8,9 @@ export default function Player({ initialName, symbol, isActive }) {
     //update state base on the previous state value
     setIsEditing((editing) => !isEditing);
 
+    if(isEditing){
+      onChangeName(symbol, playerName);
+    }
     //setIsEditing(!isEditing);
     //it's using scheduler to update, not immediately
   }
