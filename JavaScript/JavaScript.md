@@ -106,10 +106,24 @@ switch (day) {
 
 ### The Ternary Operator
 
-```javascript
+```JavaScript
 const age = 23;
 
 age > 18 ? console.log('I like to drink wine') : console.log('I like to drink water');
 
 console.log(`I like to drink ${age >= 18 ? 'wine' : 'water'}`);
+```
+
+### Destructuring Arrays
+
+```JavaScript
+const restaurant = {
+  name: 'Classico Italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+
 ```
