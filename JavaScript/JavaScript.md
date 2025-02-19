@@ -253,4 +253,29 @@ console.log('' || 'Jonas'); // -> Jonas
 console.log(true || 0); // true
 console.log(undefined || null); // null
 
+console.log(7 && 'Jonas'); // if all element with trueth value, then it returns last element, also return first false value
+
+```
+
+### The Nullish Coalescing Operator
+
+```javascript
+let num;
+// Nullish: null and undefined (NOT 0 or '')
+const guestCorrect = num ?? 10; // return 10
+
+```
+
+### Logical Assignment Operator
+
+```javascript
+const rest1 = {
+  name: 'Capri',
+  numGuests: 20,
+}
+
+const rest2 = {
+  name: 'La Piazza',
+  owner: 'Giovanni Rossi',
+}
 ```
