@@ -137,7 +137,11 @@ const restaurant = {
       close: 24,
     },
   },
-  order: function (starterIndex, mainIndex){
+  // order: function (starterIndex, mainIndex){
+  //   return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  // },
+  // ES6 enhanced object literals
+    order(starterIndex, mainIndex){
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
 
@@ -278,4 +282,191 @@ const rest2 = {
   name: 'La Piazza',
   owner: 'Giovanni Rossi',
 }
+
+rest1.numGuests = rest1.numGuests || 10;
+// same as below
+rest1.numGuests ||= 10;
+//The Nullish Coalescing Operator
+rest1.numGuests ??= 10;
+
+rest1.owner &&= '<ANONYMOUS>';
+
+```
+
+### Challenge 
+```javascript
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+//1. Create one player array for each team (variables 'players1' and 'players2')
+const [player1, player2] = game.players;
+
+//2. The first player in any player array is the goalkeeper and the others are field players. For Bayern Munich (team 1) create one variable ('gk') with the goalkeeper's name, and one array ('fieldPlayers') with all the remaining 10 field players
+const [gk, ...fieldPlayers] = player1;
+
+//3. Create an array 'allPlayers' containing all players of both teams (22 players)
+const [allPlayers] = [...player1, ...player2];
+
+//4. During the game, Bayern Munich (team 1) used 3 substitute players. So create a new array ('players1Final') containing all the original team1 players plus 'Thiago', 'Coutinho' and 'Perisic'
+const [playersFinal] = [...player1, 'Thiago', 'Coutinho', 'Perisic'];
+
+//5. Based on the game.odds object, create one variable for each odd (called 'team1', 'draw' and 'team2')
+const {odds:{team1, x: draw, team2}} = game;
+
+//6. Write a function ('printGoals') that receives an arbitrary number of player names (NOT an array) and prints each of them to the console, along with the number of goals that were scored in total (number of player names passed in)
+const printGoal = function(...players){
+  console.log(`${players.length} goals were scored`);
+
+  for(let i=0; i<player.length; i++){
+    console.log(player[i]);
+  }
+}
+
+//7. The team with the lower odd is more likely to win. Print to the console which team is more likely to win, WITHOUT using an if/else statement or the ternary operator.
+team1 < team2 && console.log('Team 1 is more likely to win');
+
+///////////////////////////////////////
+// Coding Challenge #2
+
+//1. Loop over the game.scored array and print each player name to the console, along with the goal number (Example: "Goal 1: Lewandowski")
+for(let i=0; i<game.scored.lenght; i++){
+  console.log(`Goal ${i+1}: ${game.scored[i]}`);
+}
+for(const [i, player] of game.scored.entries()){
+  console.log(`Goal ${i+1}: ${player}`);
+}
+
+//2. Use a loop to calculate the average odd and log it to the console (We already studied how to calculate averages, you can go check if you don't remember)
+const odds = Object.values(game.odds);
+let sum = 0;
+for(const odd of odds) sum += odd;
+console.log(sum/odds.length)
+
+// 3. Print the 3 odds to the console, but in a nice formatted way, exaclty like this:
+//       Odd of victory Bayern Munich: 1.33
+//       Odd of draw: 3.25
+//       Odd of victory Borrussia Dortmund: 6.5
+// Get the team names directly from the game object, don't hardcode them (except for "draw"). HINT: Note how the odds and the game objects have the same property names 😉
+for(const [key, value] of Object.entries(game.odds)){
+  const str = key === 'x' ? 'draw' : `victory ${game[key]}`;
+  console.log(`Odd of ${str}: ${value}`);
+  // switch(key){
+  //   case 'team1':
+  //     console.log(`Odd of victorey ${game.team1}: ${value}`);
+  //     break;
+  //   case 'x':
+  //     console.log(`Odd of draw: ${value}`);
+  //     break;
+  //   case 'team2':
+  //     console.log(`Odd of victorey ${game.team2}: ${value}`);
+  //     break;
+  // }
+}
+
+// BONUS: Create an object called 'scorers' which contains the names of the players who scored as properties, and the number of goals as the value. In this game, it will look like this:
+//       {
+//         Gnarby: 1,
+//         Hummels: 1,
+//         Lewandowski: 2
+//       }
+const scorers = {};
+for (const score of game.scored){
+  scorers[player] ? scorers[player] ++ : (scorers[player] = 1);
+}
+
+
+```
+
+### Looping Arrays: The for-of Loop
+```javascript
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+for (const item of menu) console.log(item);
+
+for (const item of menu.entries(){
+  console.log(item); // [0, 'Focaccia] with index
+})
+//destructuring
+for (const [i, el] of menu.entries(){
+  console.log(`${i} - ${el}`); // [0, 'Focaccia] with index
+})
+
+```
+
+### Optional Chaining
+```javascript
+// if a certain property does not exist, then undefined is returned immediately
+// WITH optional chaining
+console.log(restaurant.openingHours.mon?.open);
+
+// Methods
+console.log(restaurant.order?.(0, 1) ?? 'Method does not exist');
+
+```
+
+### Looping Objects: Object Keys, Values, and Entries
+```javascript
+// WITH object keys
+for (const day of Object.keys(openingHours)){
+  console.log(day);
+}
+// WITH object values
+const values = Object.values(openingHours);
+
+// Entries = Key + Object
+const entries = Object.entries(openingHours);
+
+for (const [key, {open, close}] of entries){
+  console.log(`On ${key}`);
+}
+
+```
+
+### Sets
+```javascript
+const ordersSet = new Set(['Pasta','Pizza','Pizza','Risotto','Pasta','Pizza']);
+
+ordersSet.size;
+ordersSet.has('Pizza'); // return true and false
+ordersSet.delete('Risotto');
+ordersSet.clear();
+
 ```
