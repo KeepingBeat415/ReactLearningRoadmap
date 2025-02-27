@@ -469,4 +469,62 @@ ordersSet.has('Pizza'); // return true and false
 ordersSet.delete('Risotto');
 ordersSet.clear();
 
+// Example
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef'];
+const staffUnique = [...new Set(staff)];
+
+const italianFoods = new Set([
+  'pasta',
+  'gnocchi',
+  'tomatoes',
+  'olive oil',
+  'garlic',
+  'basil',
+]);
+
+const mexicanFoods = new Set([
+  'tortillas',
+  'beans',
+  'rice',
+  'tomatoes',
+  'avocado',
+  'garlic',
+]);
+
+// intersection
+const commonFoods = italianFoods.intersection(mexicanFoods);
+
+// union
+const italianMexicanFusion = italianFoods.union(mexicanFoods);
+
+```
+### Maps 
+```javascript
+const rest = new Map();
+rest.set('name', 'Classico Italiano');
+rest.set(1, 'Firenze, Italy'); // can with different data type
+console.log(rest.set(2, 'Lisbon, Portugl')); // return current set
+
+// chain with set
+rest.set('open', 11).set('close', 23);
+
+console.log(rest.get('open')); // data type specific
+
+rest.has('categories');
+rest.delete(2);
+
+const question = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct 🎉'],
+  [false, 'Try again!'],
+]);
+console.log(question);
+
+// convert object as Map
+const hoursMap = new Map(Object.entries(openingHours));
+
 ```
