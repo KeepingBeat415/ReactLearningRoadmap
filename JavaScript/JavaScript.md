@@ -177,7 +177,7 @@ console.log(r); // undefined
 
 const [p=1, q=1, r=1] = [8, 9]; // assign to default value
 
-// destructuring object 
+// destructuring object
 const {name, openingHours, categories} = restaurant;
 
 // assign to with new variable name
@@ -203,7 +203,9 @@ restaurant.orderDelivery({
   starterIndex: 2,
 })
 ```
+
 ### Spread Operator (...)
+
 ```javascript
 const arr = [7, 8 , 9];
 const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
@@ -232,33 +234,32 @@ const newRestaurant = {...restaurant, founder: 'Guiseppe'};
 ```
 
 ### Rest Pattern and Parameters
-```javascript
 
+```javascript
 //REST, because on LEFT side of =
 const [a, b, ...others] = [1, 2, 3, 4, 5];
 console.log(a, b, others); // => 1 2 [3, 4, 5]
 
 // Functions with rest parameters
-const add = function(...numbers){
+const add = function (...numbers) {
   let sum = 0;
-  for(let i=0; i<numbers.length; i++) sum += numbers[i];
+  for (let i = 0; i < numbers.length; i++) sum += numbers[i];
   return sum;
-}
+};
 
 restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
-
 ```
 
 ### Short Circuiting (&& and ||)
+
 ```javascript
 // use ANY data type, return ANY data type, short-circuiting
-console.log(3 || 'Jonas'); // -> 3 , if the first value is not "FALSE" value, it returns first value immediataly 
+console.log(3 || 'Jonas'); // -> 3 , if the first value is not "FALSE" value, it returns first value immediataly
 console.log('' || 'Jonas'); // -> Jonas
 console.log(true || 0); // true
 console.log(undefined || null); // null
 
 console.log(7 && 'Jonas'); // if all element with trueth value, then it returns last element, also return first false value
-
 ```
 
 ### The Nullish Coalescing Operator
@@ -267,7 +268,6 @@ console.log(7 && 'Jonas'); // if all element with trueth value, then it returns 
 let num;
 // Nullish: null and undefined (NOT 0 or '')
 const guestCorrect = num ?? 10; // return 10
-
 ```
 
 ### Logical Assignment Operator
@@ -276,12 +276,12 @@ const guestCorrect = num ?? 10; // return 10
 const rest1 = {
   name: 'Capri',
   numGuests: 20,
-}
+};
 
 const rest2 = {
   name: 'La Piazza',
   owner: 'Giovanni Rossi',
-}
+};
 
 rest1.numGuests = rest1.numGuests || 10;
 // same as below
@@ -290,10 +290,10 @@ rest1.numGuests ||= 10;
 rest1.numGuests ??= 10;
 
 rest1.owner &&= '<ANONYMOUS>';
-
 ```
 
-### Challenge 
+### Challenge
+
 ```javascript
 const game = {
   team1: 'Bayern Munich',
@@ -312,19 +312,7 @@ const game = {
       'Gnarby',
       'Lewandowski',
     ],
-    [
-      'Burki',
-      'Schulz',
-      'Hummels',
-      'Akanji',
-      'Hakimi',
-      'Weigl',
-      'Witsel',
-      'Hazard',
-      'Brandt',
-      'Sancho',
-      'Gotze',
-    ],
+    ['Burki', 'Schulz', 'Hummels', 'Akanji', 'Hakimi', 'Weigl', 'Witsel', 'Hazard', 'Brandt', 'Sancho', 'Gotze'],
   ],
   score: '4:0',
   scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
@@ -349,16 +337,18 @@ const [allPlayers] = [...player1, ...player2];
 const [playersFinal] = [...player1, 'Thiago', 'Coutinho', 'Perisic'];
 
 //5. Based on the game.odds object, create one variable for each odd (called 'team1', 'draw' and 'team2')
-const {odds:{team1, x: draw, team2}} = game;
+const {
+  odds: { team1, x: draw, team2 },
+} = game;
 
 //6. Write a function ('printGoals') that receives an arbitrary number of player names (NOT an array) and prints each of them to the console, along with the number of goals that were scored in total (number of player names passed in)
-const printGoal = function(...players){
+const printGoal = function (...players) {
   console.log(`${players.length} goals were scored`);
 
-  for(let i=0; i<player.length; i++){
+  for (let i = 0; i < player.length; i++) {
     console.log(player[i]);
   }
-}
+};
 
 //7. The team with the lower odd is more likely to win. Print to the console which team is more likely to win, WITHOUT using an if/else statement or the ternary operator.
 team1 < team2 && console.log('Team 1 is more likely to win');
@@ -367,25 +357,25 @@ team1 < team2 && console.log('Team 1 is more likely to win');
 // Coding Challenge #2
 
 //1. Loop over the game.scored array and print each player name to the console, along with the goal number (Example: "Goal 1: Lewandowski")
-for(let i=0; i<game.scored.lenght; i++){
-  console.log(`Goal ${i+1}: ${game.scored[i]}`);
+for (let i = 0; i < game.scored.lenght; i++) {
+  console.log(`Goal ${i + 1}: ${game.scored[i]}`);
 }
-for(const [i, player] of game.scored.entries()){
-  console.log(`Goal ${i+1}: ${player}`);
+for (const [i, player] of game.scored.entries()) {
+  console.log(`Goal ${i + 1}: ${player}`);
 }
 
 //2. Use a loop to calculate the average odd and log it to the console (We already studied how to calculate averages, you can go check if you don't remember)
 const odds = Object.values(game.odds);
 let sum = 0;
-for(const odd of odds) sum += odd;
-console.log(sum/odds.length)
+for (const odd of odds) sum += odd;
+console.log(sum / odds.length);
 
 // 3. Print the 3 odds to the console, but in a nice formatted way, exaclty like this:
 //       Odd of victory Bayern Munich: 1.33
 //       Odd of draw: 3.25
 //       Odd of victory Borrussia Dortmund: 6.5
 // Get the team names directly from the game object, don't hardcode them (except for "draw"). HINT: Note how the odds and the game objects have the same property names 😉
-for(const [key, value] of Object.entries(game.odds)){
+for (const [key, value] of Object.entries(game.odds)) {
   const str = key === 'x' ? 'draw' : `victory ${game[key]}`;
   console.log(`Odd of ${str}: ${value}`);
   // switch(key){
@@ -408,14 +398,13 @@ for(const [key, value] of Object.entries(game.odds)){
 //         Lewandowski: 2
 //       }
 const scorers = {};
-for (const score of game.scored){
-  scorers[player] ? scorers[player] ++ : (scorers[player] = 1);
+for (const score of game.scored) {
+  scorers[player] ? scorers[player]++ : (scorers[player] = 1);
 }
-
-
 ```
 
 ### Looping Arrays: The for-of Loop
+
 ```javascript
 const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
 
@@ -432,6 +421,7 @@ for (const [i, el] of menu.entries(){
 ```
 
 ### Optional Chaining
+
 ```javascript
 // if a certain property does not exist, then undefined is returned immediately
 // WITH optional chaining
@@ -439,13 +429,13 @@ console.log(restaurant.openingHours.mon?.open);
 
 // Methods
 console.log(restaurant.order?.(0, 1) ?? 'Method does not exist');
-
 ```
 
 ### Looping Objects: Object Keys, Values, and Entries
+
 ```javascript
 // WITH object keys
-for (const day of Object.keys(openingHours)){
+for (const day of Object.keys(openingHours)) {
   console.log(day);
 }
 // WITH object values
@@ -454,15 +444,15 @@ const values = Object.values(openingHours);
 // Entries = Key + Object
 const entries = Object.entries(openingHours);
 
-for (const [key, {open, close}] of entries){
+for (const [key, { open, close }] of entries) {
   console.log(`On ${key}`);
 }
-
 ```
 
 ### Sets
+
 ```javascript
-const ordersSet = new Set(['Pasta','Pizza','Pizza','Risotto','Pasta','Pizza']);
+const ordersSet = new Set(['Pasta', 'Pizza', 'Pizza', 'Risotto', 'Pasta', 'Pizza']);
 
 ordersSet.size;
 ordersSet.has('Pizza'); // return true and false
@@ -473,32 +463,19 @@ ordersSet.clear();
 const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef'];
 const staffUnique = [...new Set(staff)];
 
-const italianFoods = new Set([
-  'pasta',
-  'gnocchi',
-  'tomatoes',
-  'olive oil',
-  'garlic',
-  'basil',
-]);
+const italianFoods = new Set(['pasta', 'gnocchi', 'tomatoes', 'olive oil', 'garlic', 'basil']);
 
-const mexicanFoods = new Set([
-  'tortillas',
-  'beans',
-  'rice',
-  'tomatoes',
-  'avocado',
-  'garlic',
-]);
+const mexicanFoods = new Set(['tortillas', 'beans', 'rice', 'tomatoes', 'avocado', 'garlic']);
 
 // intersection
 const commonFoods = italianFoods.intersection(mexicanFoods);
 
 // union
 const italianMexicanFusion = italianFoods.union(mexicanFoods);
-
 ```
-### Maps 
+
+### Maps
+
 ```javascript
 const rest = new Map();
 rest.set('name', 'Classico Italiano');
@@ -527,4 +504,48 @@ console.log(question);
 // convert object as Map
 const hoursMap = new Map(Object.entries(openingHours));
 
+const time = [...gameEvents.keys()].pop();
+```
+
+### Strings
+
+```javascript
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+
+console.log(plane[0]);
+console.log('B737'.length);
+console.log(airline.indexOf('r'));
+console.log(airline.lastIndexOf('r'));
+
+console.log(airline.slice(4, 7)); // Air
+console.log(airline.slice(-2)); // negative start from end
+
+airline.toLowerCase();
+'joins'.toUpperCase();
+
+// Fix capitalization in name
+const passenger = 'jOnAS';
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect = passengerLower[0].toUpperCase() + passengerLower.slice(1);
+
+// replacing
+const priceGB = '288,98$';
+const priceUS = priceGB.replace('$', '&');
+
+// Booleans
+const plane = 'A320neo';
+console.log(plane.includes('A320'));
+
+console.log('a+very+nice+string'.split('+'));
+
+const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+  for (const word of names) {
+    n[0].toUpperCase() + n.slice(1).toLowerCase();
+  }
+};
 ```
