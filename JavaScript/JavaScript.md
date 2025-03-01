@@ -547,5 +547,39 @@ const capitalizeName = function (name) {
   for (const word of names) {
     n[0].toUpperCase() + n.slice(1).toLowerCase();
   }
+  console.log(namesUpper.join(' '));
 };
+
+// Padding
+const message = 'Go to gate 23';
+console.log(message.padStart(25, '+').padEnd(35, '+')); // +++++++Go to gate 23+++++
+
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');
+};
+
+// Repeat
+const message2 = 'Bad weather... All Departure Delayed...';
+console.log(message2.repeat(5));
+
+document.querySelector('button').addEventListener('click', function () {
+  const text = document.querySelector('textarea').value;
+  const rows = text.split('\n');
+  for (let i = 0; i < rows.length; i++) {
+    let str = '';
+    const words = rows[i].trim().split('_');
+    for (let j = 0; j < words.length; j++) {
+      if (j === 0) {
+        str += words[j].toLowerCase();
+      } else {
+        str += words[j][0].toUpperCase() + words[j].slice(1).toLowerCase();
+      }
+      str.padEnd(20, ' ');
+      str += '='.repeat(i);
+    }
+    console.log(str);
+  }
+});
 ```
