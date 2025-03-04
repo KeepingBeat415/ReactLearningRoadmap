@@ -583,3 +583,87 @@ document.querySelector('button').addEventListener('click', function () {
   }
 });
 ```
+
+### Functions
+
+```javascript
+const bookings = [];
+
+const createBooking = function(flightNum, numPassengers = 1, price = 199 * numPassengers){
+
+  const booking = {
+    flightNum, numPassengers, price
+  }
+
+  console.log(booking);
+  bookings.push(booking);
+}
+ 
+// skip parameters
+createBooking('LH123', undefined, 1000);
+
+// Passing Arguments: value vs. reference
+const fligth = 'LH234';
+const jonas = {
+  name: 'Jonas Schmedtmann',
+  passport: 12345,
+}
+
+const checkIn = function (flightNum, passenger) {
+  fligthNum = 'LH999'; // try to modify passing value
+  passenger.name = 'Mr.' + passenger.name;
+}
+
+checkIn(flight, jonas);
+console.log(flight);// LH234
+console.log(jonas); // Mr. Jonas Schmedtmann, as it only pass the referene for this object
+
+/*
+Funtions just another type of objects in JavaScript
+
+First-Class Functions
+- JavaScript treats functions as first-class citizens
+- This means that functions are simply values
+- Functions are just another "type" of object
+
+Higher-Order Functions
+- A function that receives another function as an argument, that returns a new functions, or both
+- This is only possible because of first-class functions
+
+1. Function that receives another function
+const greet = () => console.log('Hey Jonas');
+btnClose.addEventListener('click', greet);
+
+"addEventListener" >> Higher-order function
+"greet" >> Callbackfunction, because it will be call late by higher-order functions
+
+2. Function that returns new function
+function count() {
+  let counter = 0;
+  return function(){
+    counter++;
+  };
+}
+
+"count()" >> Higher-order function
+"function()" >> returned function
+
+*/
+
+const oneWord = function(str) {
+  return str.replace(/ /g, '').toLowerCase();
+} 
+
+const upperFirstWord = function(str) {
+  const [first, ...others] = str.split(' ');
+  return [first.toUpperCase(), ...others].join(' ');
+}
+
+// Higher-order function
+const transformer = function(str, fn){
+  return fn(str);
+}
+
+transformer('JavaScript is the best!', upperFirstWord)
+
+```
