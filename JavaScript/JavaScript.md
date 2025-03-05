@@ -589,16 +589,17 @@ document.querySelector('button').addEventListener('click', function () {
 ```javascript
 const bookings = [];
 
-const createBooking = function(flightNum, numPassengers = 1, price = 199 * numPassengers){
-
+const createBooking = function (flightNum, numPassengers = 1, price = 199 * numPassengers) {
   const booking = {
-    flightNum, numPassengers, price
-  }
+    flightNum,
+    numPassengers,
+    price,
+  };
 
   console.log(booking);
   bookings.push(booking);
-}
- 
+};
+
 // skip parameters
 createBooking('LH123', undefined, 1000);
 
@@ -607,15 +608,15 @@ const fligth = 'LH234';
 const jonas = {
   name: 'Jonas Schmedtmann',
   passport: 12345,
-}
+};
 
 const checkIn = function (flightNum, passenger) {
   fligthNum = 'LH999'; // try to modify passing value
   passenger.name = 'Mr.' + passenger.name;
-}
+};
 
 checkIn(flight, jonas);
-console.log(flight);// LH234
+console.log(flight); // LH234
 console.log(jonas); // Mr. Jonas Schmedtmann, as it only pass the referene for this object
 
 /*
@@ -650,20 +651,104 @@ function count() {
 
 */
 
-const oneWord = function(str) {
+const oneWord = function (str) {
   return str.replace(/ /g, '').toLowerCase();
-} 
+};
 
-const upperFirstWord = function(str) {
+const upperFirstWord = function (str) {
   const [first, ...others] = str.split(' ');
   return [first.toUpperCase(), ...others].join(' ');
-}
+};
 
 // Higher-order function
-const transformer = function(str, fn){
+const transformer = function (str, fn) {
   return fn(str);
+};
+
+transformer('JavaScript is the best!', upperFirstWord);
+
+const greet = function (greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+};
+
+const greet_arrow = greeting => name => console.log(`${greeting}${name}`);
+
+const greeterHey = greet('Hey');
+// greeterHey assigned as function
+greeterHey('Jonas'); // Hey Jonas
+greet('Hello')('Jonas'); // Hello Jonas
+
+const lufthansa = {
+  airline: "Lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  book(flightNum, name){
+    console.log(`${name} booked a seat on ${this.airline} fight ${this.iataCode}${flightNum}`);
+    this.bookings.push({flight: `${this.iataCode}${flightNum}`, name})
+  }
+};
+
+lufthansa.book(239, 'Jonas Schmedtmann');
+lufthansa.book(635, 'John Smith');
+console.log(lufthansa); // [{flight: 'LH239', name: 'Jonas Schmedtmann'}, {flight: 'LH635', name:'John Smith'}]
+
+const eurowings = {
+  name: 'Eurowings',
+  iataCode: 'EW',
+  booking: []
+};
+
+const book = lufthansa.book; // copy of the object function, but can't copy with "this"
+// call method, with object point
+book.call(eurowings, 23, 'Sarah Williams');
+
+const swiss = {
+  airline: 'Swiss Air Lines',
+  iataCode: 'LX',
+  bookings: [],
 }
 
-transformer('JavaScript is the best!', upperFirstWord)
+// apply method
+const flightData = [583, 'George Cooper'];
+book.apply(swiss, fightData);
+console.log(swiss);
+
+book.call(swiss, ...flightData);
+
+// Bind method, it returns a new function where this keyword is bound
+const bookEW = book.bind(eurowings); // bind book function to eurowings
+bookEW(23, 'Steven Williams');
+
+const bookEW23 = book.bind(eurowings, 23);// bind function with preset parameter;
+bookEW23('Jonas Schmedtmann');
+bookEW23('Martha Cooper');
+
+// with Event Listeners
+lufthansa.planes = 300;
+lufthansa.buyPlane = function(){
+  console.log(this);
+
+  this.planes++;
+  console.log(this.planes);
+}
+
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane.bind(lufthansa)); // "this" in the function "lufthansa" point to the button
+
+// Partial application
+const addTax = (rate, value) => value + value*rate;
+
+const addVAT = addTax.bind(null, 0.23);
+// addVAT = value => value + value * 0.23;
+
+const addTaxRate = function(rate){
+  return function(value){
+    return value + value*rate;
+  }
+}
+
+const addVAT2 = addTaxRate(0.23);
+console.log(addVAT2(100));//123
 
 ```
