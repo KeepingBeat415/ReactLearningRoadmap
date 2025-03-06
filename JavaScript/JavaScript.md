@@ -762,6 +762,61 @@ runOnce();
   console.log('This will never run again');
 })();
 
+// Closures
+// A function has acess to the variable environment(VE) of the execution context in which it was created
+// Closure: VE attached to the function, exactly as it was at the time and place the function was created
+// A function does not lose connection to variables that existed at the function's birthplace
+// A closure is the closed-over variable environment of the execution context in vhich a function was created, even after that exection context is gone.
+// A closure gives a function access to all the variables of its parent function, even after that parent function has returned. The function keeps a reference to its outer scope, which preserves the scope chain throughout time
+// A closure makes sure that a function doesn't loose connection to variables that existed at the function's birth place
+const secureBooking = function(){
+  let passengerCount = 0;
 
+  return function(){
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  }
+}
+
+const booker = secureBooking();
+
+booker(); // 1 passengers
+booker(); // 2 passengers
+
+//
+let f;
+
+const g = function(){
+  const a = 23;
+  f = function(){
+    console.log(a * 2);
+  }
+}
+
+const h = function(){
+  const b = 777;
+  f = function(){
+    console.log(b * 2);
+  }
+}
+
+g();
+f();
+
+//re-assigning f function
+h();
+f();
+
+//Example 2
+const boardPassengers = function(n, wait){
+  const perGroup = n / 3;
+
+  setTimeout(() => {
+     console.log(`We are now boarding all ${n} passengers`);
+     console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding in ${wait}`)
+}
 
 ```
