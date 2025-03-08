@@ -80,6 +80,22 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+  const incomes = movements.filter((mov) => mov > 0).reduce((acc, cur) => acc + cur, 0);
+  labelSumIn.textContent = `${incomes}$`;
+
+  const out = movements.filter((mov) => mov < 0).reduce((acc, cur) => acc + cur, 0);
+  labelSumOut.textContent = `${out}$`;
+};
+
+calcDisplaySummary(account1.movements);
+
 // create new variable with username
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -91,7 +107,7 @@ const createUsernames = function (accs) {
   });
 };
 
-createUsernames('Steven Tomas Williams'); // stw
+createUsernames(accounts); // stw
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -199,3 +215,30 @@ const movementsDescriptions = movements3.map((mov, i, arr) => {
 const deposits = movements3.filter((mov) => mov > 0);
 
 const withdrawals = movements3.filter((mov) => mov < 0);
+
+const balance = movements3.reduce(function (sum, cur, i, arr) {
+  console.log(`Iteration ${i}: ${acc}`);
+  return acc + cur;
+}, 0);
+
+// Maximum value
+const maxValue = movements3.reduce((acc, curr) => (acc = curr > acc ? curr : acc), movements3[0]);
+
+// Challenge
+const data_1 = [5, 2, 4, 1, 15, 8, 3];
+
+const result_1 = data_1.map((ele) => (ele <= 2 ? 2 * ele : 16 + ele * 4));
+const result_2 = result_1.filter((ele) => ele >= 18);
+const result_3 = result_2.reduce((acc, cur, i, arr) => {
+  return acc + cur / arr.length;
+}, 0);
+
+const totalDepositsUSD = movements3
+  .filter((mov) => mov > 0)
+  /*.map((mov, i, arr) => {
+      console.log(arr);
+      return mov * eurToUsd;  
+  })
+  */
+  .map((mov) => mov * eurToUsd)
+  .reduce((acc, cur) => acc + cur);
