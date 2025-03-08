@@ -62,7 +62,6 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 const displayMovements = function (movements) {
-
   containerMovements.innerHTML = '';
 
   movements.forEach(function (mov, i) {
@@ -80,6 +79,19 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+
+// create new variable with username
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLocaleLowerCase()
+      .split(' ')
+      .map((ele) => ele.at(0))
+      .join('');
+  });
+};
+
+createUsernames('Steven Tomas Williams'); // stw
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -166,3 +178,24 @@ const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR']);
 currenciesUnique.forEach((value, key, set) => {
   console.log(`${key} : ${value}`);
 });
+
+// map method return new array
+const movements3 = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const eurToUsd = 1.1;
+
+const movementsUSD = movements3.map(function (mov) {
+  return mov * eurToUsd;
+});
+
+const movementsDescriptions = movements3.map((mov, i, arr) => {
+  if (mov > 0) {
+    return `Movement ${i + 1}: You deposited ${mov}`;
+  } else {
+    return `Movement ${i + 1}: You withdrew ${Math.abs(mov)}`;
+  }
+});
+
+const deposits = movements3.filter((mov) => mov > 0);
+
+const withdrawals = movements3.filter((mov) => mov < 0);
