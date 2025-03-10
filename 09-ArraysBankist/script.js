@@ -171,12 +171,35 @@ btnTransfer.addEventListener('click', function (e) {
 
 btnClose.addEventListener('click', function(e) {
   e.preventDefault();
+
   if(currentAccount.username === inputCloseUsername.value && currentAccount.pin === Number(inputClosePin.value){
     const index = accounts.findIndex(acc => acc.username === currentAccount.username);
-    
+
     accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
   }
-})
+
+  inputCloseUsername.value = inputClosePin.value = '';
+
+});
+
+btnLoan.addEventListener('click', function(){
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if(amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)){
+    // Add movement
+    currentAccount.movements.push(amount);
+    // update UI
+    updateUI(currentAccount);
+  }
+
+});
+
+
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -315,3 +338,93 @@ const totalDepositsUSD = movements3
 // Find Method
 movements3.find((mov) => mov < 0); // return first found item
 
+// Some Method, if contains any value fit call back function
+const anyDeposits = movements3.some(mov => mov > 1500); 
+
+// Every Method, if every element meet the condition
+movements3.every(mov => mov >0);
+
+// Separate Callback
+const deposit = mov => mov > 0;
+movements3.some(deposit);
+movements3.every(deposit);
+
+// Flat Method
+const arr1 = [[1, 2, 3], [4, 5, 6], 7, 8];
+arr1.flat(); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+// go to 2 level deep
+const arr_2 = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+arr1.flat(2); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+const overallBalance = accounts.map(acc => acc.movements).flat().reduce((acc, mov) => acc + mov, 0);
+
+// flatMap >> only 1 level deep
+const overallBalance2 = accounts.flatmap(acc => acc.movements).reduce((acc, mov) => acc + mov, 0);
+
+// Challenge 4
+/*
+This time, Julia and Kate are studying the activity levels of different dog breeds.
+
+YOUR TASKS:
+
+
+4. Create an array "uniqueActivities" that contains only the unique activities (no activity repetitions). HINT: Use a technique with a special data structure that we studied a few sections ago.
+5. Many dog breeds like to swim. What other activities do these dogs like? Store all the OTHER activities these breeds like to do, in a unique array called "swimmingAdjacent".
+6. Do all the breeds have an average weight of 10kg or more? Log to the console whether "true" or "false".
+7. Are there any breeds that are "active"? "Active" means that the dog has 3 or more activities. Log to the console whether "true" or "false".
+
+BONUS: What's the average weight of the heaviest breed that likes to fetch? HINT: Use the "Math.max" method along with the ... operator.
+
+TEST DATA:
+*/
+
+
+const breeds = [
+  {
+    breed: 'German Shepherd',
+    averageWeight: 32,
+    activities: ['fetch', 'swimming'],
+  },
+  {
+    breed: 'Dalmatian',
+    averageWeight: 24,
+    activities: ['running', 'fetch', 'agility'],
+  },
+  {
+    breed: 'Labrador',
+    averageWeight: 28,
+    activities: ['swimming', 'fetch'],
+  },
+  {
+    breed: 'Beagle',
+    averageWeight: 12,
+    activities: ['digging', 'fetch'],
+  },
+  {
+    breed: 'Husky',
+    averageWeight: 26,
+    activities: ['running', 'agility', 'swimming'],
+  },
+  {
+    breed: 'Bulldog',
+    averageWeight: 36,
+    activities: ['sleeping'],
+  },
+  {
+    breed: 'Poodle',
+    averageWeight: 18,
+    activities: ['agility', 'fetch'],
+  },
+];
+
+// >> 1. Store the the average weight of a "Husky" in a variable "huskyWeight"
+
+const huskyWeight = breeds.find(ele => ele.breed === 'Husky').averageWeight;
+// >> 2. Find the name of the only breed that likes both "running" and "fetch" ("dogBothActivities" variable)
+const dogBothActivities_1 = breeds.map(ele => {
+  ele.activities.some(activity => activity === 'running' || activity === 'fetch')
+});
+const dogBothActivities_2 = breeds.find( breed => breed.activities.includes('fetch') && breed.activities.includes('running'));
+// >> 3. Create an array "allActivities" of all the activities of all the dog breeds
+const allActivities = breeds.flatMap(breed => breed.activities);
