@@ -462,3 +462,6 @@ const z = Array.from({length: 7}, (cur, i) => i + 1); // [1, 2, ,3, 4, 5, 6, 7]
 // 
 movements3[1] = 2000;
 const newMovements3 = movements3.with(1, 2000); // create new array with modify value
+
+// Array Methods Practice
+const bankDepositSum = accounts.flatMap(acc => acc.movements).filter(mov => mov > 0).reduce((sum, cur) => sum+cur, 0);
