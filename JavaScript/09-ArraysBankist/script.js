@@ -61,10 +61,12 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -198,6 +200,14 @@ btnLoan.addEventListener('click', function(){
   }
 
 });
+let sorted =false;
+btnSort.addEventListener('click', function(){
+  e.preventDefault();
+
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+
+})
 
 
 
@@ -363,22 +373,6 @@ const overallBalance = accounts.map(acc => acc.movements).flat().reduce((acc, mo
 const overallBalance2 = accounts.flatmap(acc => acc.movements).reduce((acc, mov) => acc + mov, 0);
 
 // Challenge 4
-/*
-This time, Julia and Kate are studying the activity levels of different dog breeds.
-
-YOUR TASKS:
-
-
-4. Create an array "uniqueActivities" that contains only the unique activities (no activity repetitions). HINT: Use a technique with a special data structure that we studied a few sections ago.
-5. Many dog breeds like to swim. What other activities do these dogs like? Store all the OTHER activities these breeds like to do, in a unique array called "swimmingAdjacent".
-6. Do all the breeds have an average weight of 10kg or more? Log to the console whether "true" or "false".
-7. Are there any breeds that are "active"? "Active" means that the dog has 3 or more activities. Log to the console whether "true" or "false".
-
-BONUS: What's the average weight of the heaviest breed that likes to fetch? HINT: Use the "Math.max" method along with the ... operator.
-
-TEST DATA:
-*/
-
 
 const breeds = [
   {
@@ -428,3 +422,43 @@ const dogBothActivities_1 = breeds.map(ele => {
 const dogBothActivities_2 = breeds.find( breed => breed.activities.includes('fetch') && breed.activities.includes('running'));
 // >> 3. Create an array "allActivities" of all the activities of all the dog breeds
 const allActivities = breeds.flatMap(breed => breed.activities);
+// >> 4. Create an array "uniqueActivities" that contains only the unique activities (no activity repetitions). HINT: Use a technique with a special data structure that we studied a few sections ago.
+const uniqueActivities = [...new Set(breeds.flatMap(breed => breed.activities))];
+//5. Many dog breeds like to swim. What other activities do these dogs like? Store all the OTHER activities these breeds like to do, in a unique array called "swimmingAdjacent".
+const swimmingAdjacent = [...new Set(breeds.filter(breed => breed.activities.includes('swimming')).flatMap(breed => breed.activities))];
+//6. Do all the breeds have an average weight of 10kg or more? Log to the console whether "true" or "false".
+breeds.every(ele => ele.averageWeight > 10);
+//7. Are there any breeds that are "active"? "Active" means that the dog has 3 or more activities. Log to the console whether "true" or "false".
+breeds.some(breed => breed.activities.length >= 3);
+//BONUS: What's the average weight of the heaviest breed that likes to fetch? HINT: Use the "Math.max" method along with the ... operator.
+Math.max(breeds.filter(breed => breed.activities.includes('fetch')).map( breed => breed.averageWeight));
+
+// Sorting Arrays
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+owners.sort(); // mutate original array
+
+// return < 0, then A, B (keep order)
+// return > 0, then B, A (switch order)
+movements3.sort((a, b) => {
+  if(a > b) {
+    return 1;
+  }
+  if(b > a){
+    return -1;
+  }
+});
+
+// Array Grouping
+const groupedMovements = Object.groupBy(movements3, movement => movement > 0 ? 'deposits' : 'withdrawals');
+
+// Creating and Filling Arrays
+const x = new Array(7);
+// fill( filled_num, start_idx, end_idx)
+x.fill(1);// [1, 1, 1, 1, 1, 1, 1,]
+
+// Array.from
+const z = Array.from({length: 7}, (cur, i) => i + 1); // [1, 2, ,3, 4, 5, 6, 7]
+
+// 
+movements3[1] = 2000;
+const newMovements3 = movements3.with(1, 2000); // create new array with modify value
