@@ -820,3 +820,151 @@ const boardPassengers = function(n, wait){
 }
 
 ```
+
+### Object-Oriented Programming
+
+Object man contain data (properties) and code (methods). By using objects, we pack data and the corresponding behavior into one block.
+
+- 1. Abstraction: ignoring or hiding details that don't matter, allowing us to get an overview perspective of the thing we're implementing, instead of messing with details that don't really matter to our implementation.
+
+- 2. Encapsulation: keeping properties and methods private inside the class, so they are not accessible from outside the class. Some methods can be exposed as a public interface (API)
+
+- 3. Inheritance: Making all properties and methods of a certain class available to a child class, forming a hierarchical relationship between classes. This allows us to reuse common logic and to model real-world relationship.
+
+- 4. Polymorphism: a child class can overwrite a method it inherited from a parent class.
+
+Prototype -> Object
+
+- Objects are linked to a prototype object
+- Prototypal inheritance: the prototype contains methods (behavior) that are accessible to all objects linked to that prototype
+- Behavior is delegated to the linked prototype object
+
+```JavaScript
+
+// constructor
+const Person = function(firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  // don't create method in the constructor, heavy performance
+  // this.calcAge = function(){
+  //   console.log(2037 0 this.birthYear);
+  // }
+}
+
+// class static method
+Person.hey = function(){
+  console.log('Hey there');
+}
+
+const jonas = new Person('Jonas', 1991);
+// 1. New {} is created
+// 2. function is called, this = {}
+// 3. {} linked to prototype
+// 4. function automatically return {}
+
+console.log(jonas instanceof Person); // true
+
+// Prototypes
+// every object that's created by a certain constructor function will get access to all the methods and properties that we define on the constructors prototype property
+
+// create Method link to Person Object
+Person.prototype.calcAge = function(){
+  console.log(2037 - this.birthYear);
+}
+
+// create variable in the object prototype
+Person.prototype.species = 'Homo Sapiens';
+// all instance under Person Class will inheritance 'species'
+
+const arr = [3, 6, 4];
+console.log(arr.__proto__);
+
+// add custom Array method into Array.prototype, which can be used by all Arrays
+Array.prototype.unique = function(){
+  return [...new Set(this)];
+}
+
+// Challenge 1
+//1. Use a constructor function to implement a Car. A car has a make and a speed property. The speed property is the current speed of the car in km/h;
+const Car = function(make, speed){
+  this.make = make;
+  this.speed = speed;
+}
+
+//2. Implement an 'accelerate' method that will increase the car's speed by 10, and log the new speed to the console;
+
+Car.prototype.accelerate = function(){
+  this.speed += 10;
+}
+
+//3. Implement a 'brake' method that will decrease the car's speed by 5, and log the new speed to the console;
+Car.prototype.brake = function(){
+  this.speed -= 5;
+  console.log(`Current car speed is ${this.speed}`);
+}
+
+//4. Create 2 car objects and experiment with calling 'accelerate' and 'brake' multiple times on each of them.
+
+//DATA CAR 1: 'BMW' going at 120 km/h
+//DATA CAR 2: 'Mercedes' going at 95 km/h
+
+// ES6 Class
+
+// class expression
+// const PersonCl = class{
+
+// }
+
+// class declaration
+class PersonCl{
+  constructor(firstName, birthYear){
+    // convention with underscore
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  calcAge(){
+    console.log(2037 - this.birthYear);
+  }
+
+  get age(){
+    return 2037 - this.birthYear;
+  }
+
+  set firstName(firstName){
+    this._firstName = firstName;
+  }
+
+  get firstName(){
+    return this._firstName;
+  }
+
+  // static method
+  static hey(){
+    console.log('Hey there');
+  }
+}
+
+// Setters and Getters
+
+// with Object
+const account = {
+  owner: 'Jonas',
+  movements: [200, 530, 120, 300],
+
+  get latest(){
+    return this.movements.slice(-1).pop();
+  },
+
+  set latest(mov){
+    this.movements.push(mov);
+  }
+}
+
+console.log(account.latest);
+
+account.latest = 50;
+
+
+```
