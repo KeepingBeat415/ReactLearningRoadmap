@@ -1079,16 +1079,29 @@ const jay = Object.create(StudentProto);
 class Account{
   locale = navigator.locale; // public fields
   #movements = []; // private fields
+  #pin;
+  static numAcc = 10; // static fields, and only access from this class
 
 
   constructor(owner, currency, pin){
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
+    this.#pin = pin; // pass input as private
+  }
+
+  // Public interface (API)
+  getMovements(){
+    return this.#movements;
+  }
+
+  // private method
+  #approveLoan(val){
+    return true;
   }
 
   deposit(val){
     this.#movements.push(val);
+    return this; // for chain the call method as chainable
   }
 
   withdraw(val){
@@ -1096,5 +1109,25 @@ class Account{
   }
 }
 
+// Challenge 4
+class EVC extends CarCl{
+  #charge;\
+  constructor(make, speed, charge){
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  acclerate (){
+    this.speed += 20;
+    this.#charge --;
+  console.log(`${this.make} going at ${this.speed} km/h, with a charge of ${this.#charge}%`);
+  return this;
+  }
+
+}
 
 ```
+
+### Asynchronous
+
+- Asynchronous JavaScript and XML: allows us to communicate with remote web servers in an asynchronous way. with AJAX calls, we can request data from web servers dynamically.
