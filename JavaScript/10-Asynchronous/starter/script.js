@@ -207,3 +207,91 @@ const whereAmI = function (lat, lng) {
       console.error(`${err.message}`);
     });
 };
+
+
+// Example Promise flow
+console.log('Test Start'); // 1
+setTimeout(() => console.log('0 sec timer'), 0); // 5 --> call back
+Promise.resolve('Resolved promise 1').then(res => console.log(res)); // 3 --> mirco task
+Promise.resolve('Resolved promise 1').then(res => {
+    for (let i=0; i < 10000000; i++){}
+    console.log(res);
+}); // 4 --> mirco task
+console.log('Test End'); // 2 
+
+// Building a Simple Promise
+const lotteryPromise = new Promise(function(resolve, reject){
+    if(Math.random() >= 0.5){
+        resolve('You WIN');
+    }else{
+        reject(new Error('You LOST'));
+    }
+});
+
+lotteryPromise.then(res => console.log((res))).catch(err => console.error(err));
+
+// Promisifying setTimeout
+const wait = function(seconds){
+    return new Promise(function(resolve){
+        setTimeout(resolve, seconds * 1000);
+    })
+};
+
+wait(2).then(() => {
+    console.log('I waited for 2 seconds');
+    return wait(1);
+}).then(() => console.log('I waited for 1 second'));
+
+Promise.resolve('ab').then(x => console.log(x));// resolve immediately
+
+// convert call back base API to promise API
+navigator.geolocation.getCurrentPosition(
+    position => console.log(position), 
+    err => console.error(err)
+);
+
+const getPosition = function(){
+    return new Promise(function(resolve, reject){
+        navigator.geolocation.getCurrentPosition(
+            position => resolve(position), 
+            err => reject(err)
+        )
+    })
+}
+
+getPosition().then(pos => console.log(pos));
+
+const imgContainer = document.querySelector('.images');
+
+const createImage = function(imgPath){
+    return new Promise(function(reslove, reject){
+        const img = document.createElement('img');
+        img.src = imgPath;
+
+        img.addEventListener('load', function(){
+            imgContainer.append(img);
+            resolve(img);
+        });
+
+        img.addEventListener('error', function(){
+            reject(new Error('image not found'));
+        })
+    })
+};
+
+let curentImg;
+
+createImage('img/img-1.jpg').then(img => {
+    console.log('Image 1 loaded');
+    return wait(2);
+}).then(() => {
+    curentImg.style.display = 'none';
+    return createImage('img/img-2.jpg');
+}).then(img => {
+    console.log('Image 2 loaded');
+    return wait(2);
+}).then(() => {
+    curentImg.style.display = 'none';
+
+})
+.catch(err => console.error(err));
