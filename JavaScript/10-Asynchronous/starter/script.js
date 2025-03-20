@@ -295,3 +295,39 @@ createImage('img/img-1.jpg').then(img => {
 
 })
 .catch(err => console.error(err));
+
+// Consuming Promises with Async/Await
+const whereAmI_A = async function(country){
+  try{const res = await fetch(`https://countries-api-836d.onrender.com/countries/${country}`);
+
+  const data = await res.json();
+
+  renderCountry(data[0]);} catch(err){
+    console.error(err);
+    renderError(`Something went wrong ${err}`);
+  }
+
+  return `Country info ${data}`;
+};
+
+console.log('1: Will get location');
+const city = whereAmI();
+//console.log(city);
+whereAmI_A().then(city => console.log(city));
+console.log('3: Finished getting location');
+
+/*
+1: Will get location
+Promise {<pending>}
+'3: Finished getting location'
+*/
+
+// try catch
+
+try{
+  let y = 1;
+  const x = 2;
+  x = 3;
+} catch (err){
+  alert(err.message);
+}
