@@ -305,6 +305,9 @@ const whereAmI_A = async function(country){
   renderCountry(data[0]);} catch(err){
     console.error(err);
     renderError(`Something went wrong ${err}`);
+
+    // Reject promise returned from async function
+    throw err;
   }
 
   return `Country info ${data}`;
@@ -331,3 +334,88 @@ try{
 } catch (err){
   alert(err.message);
 }
+
+const get3Countries = async function(c1, c2, c3 ){
+  try {
+    // const [data_1] = await getJSON(`https://countries-api-836d.onrender.com/countries/${c1}`);
+    // const [data_2] = await getJSON(`https://countries-api-836d.onrender.com/countries/${c2}`);
+    // const [data_3] = await getJSON(`https://countries-api-836d.onrender.com/countries/${c3}`);
+
+    //run all promist in the array same time
+    //return short circle, if any reject
+    const data = await Promise.all([
+      getJSON(`https://countries-api-836d.onrender.com/countries/${c1}`),
+      getJSON(`https://countries-api-836d.onrender.com/countries/${c2}`),
+      getJSON(`https://countries-api-836d.onrender.com/countries/${c3}`)
+    ]);
+
+    console.log([data_1.capital, data_2.capital, data_3.capital]);
+  }catch(err){
+    console.error(err);
+  }
+}
+
+get3Countries('portual', 'canada', 'tanzania');
+
+// other Promise Combinator: race, allSettled and any
+(async function(){
+  const res = await Promise.race([
+    getJSON(`https://countries-api-836d.onrender.com/countries/italy`),
+    getJSON(`https://countries-api-836d.onrender.com/countries/egypt`),
+    getJSON(`https://countries-api-836d.onrender.com/countries/,mexico`)
+  ]);
+
+  // only return the fastest response data
+  console.log(res[0]);
+})();
+
+
+const timeout = function (sec){
+  return new Promise(function (_, reject){
+    setTimeout(function(){
+      reject(new Error('Request took too long!'));
+    }, sec);
+  });
+};
+
+Promise.race([
+  getJSON(`https://countries-api-836d.onrender.com/countries/tanzania}`),
+  timeout(1)
+]).then(res => console.log(`Msg: ${res}`)).catch(err => console.error(err));
+
+// Promise.allSettled
+// never return short circle, if any reject
+
+Promise.allSettled([
+  Promise.resolve('Success'),
+  Promise.reject('ERROR'),
+  Promise.resolve('Another Success')
+])
+  .then(res => console.log(res))
+  .catch(err => console.log(err));
+
+
+// Promise.any [ES2021]
+// ignore reject promise, and return first success promise
+Promise.any([
+  Promise.resolve('Success'),
+  Promise.reject('ERROR'),
+  Promise.resolve('Another Success')
+])
+  .then(res => console.log(res))
+  .catch(err => console.log(err));
+
+
+const loadAll = async function(imgArr){
+  try{
+    const imgs = imgArr.map(async img => await createImage(img));
+    const imgsEl = await Promise.all(imgs);
+    console.log(imgsEl);
+
+    imgsEl.forEach(img => img.classList.add('parallel'));
+  }catch (err){
+    console.log(err);
+  }
+};
+
+loadAll(['img/img-1.jgp','img/img-2.jgp','img/img-3.jgp']);
