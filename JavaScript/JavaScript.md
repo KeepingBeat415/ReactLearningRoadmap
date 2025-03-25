@@ -1131,3 +1131,13 @@ class EVC extends CarCl{
 ### Asynchronous
 
 - Asynchronous JavaScript and XML: allows us to communicate with remote web servers in an asynchronous way. with AJAX calls, we can request data from web servers dynamically.
+
+### Modern JavaScript Development
+
+- Modules: Reuseable piece of code that encapsulates implementation details
+
+```JavaScript
+// Importing module
+import './shoppingCart.js';
+
+```
